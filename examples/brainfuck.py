@@ -1,15 +1,16 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import sys 
 from braincore import Cell
+
+
+def print_usage():
+    print("usage: %s script.bf")
+
 
 if not len(sys.argv) > 1:
     print_usage()
     exit(1)
-
-
-def print_usage():
-    print "usage: %s script.bf" 
 
 
 class ScriptExecutor:
@@ -64,4 +65,4 @@ if __name__ == "__main__":
     script = open(sys.argv[1]).read()
     sexec = ScriptExecutor(script)
     sexec.run()
-    print sexec.output
+    print(sexec.output)
