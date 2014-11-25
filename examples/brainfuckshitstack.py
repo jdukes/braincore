@@ -4,15 +4,6 @@ import sys
 from braincore import Cell, Stack
 
 
-def print_usage():
-    print("usage: %s script.bfss")
-
-
-if not len(sys.argv) > 1:
-    print_usage()
-    exit(1)
-
-
 class CodeFeeder:
 
     def __init__(self, script=None):
@@ -97,9 +88,15 @@ class ScriptExecutor:
         self.code.build_from(old_stack)
 
 
-if __name__ == "__main__":
+def main():
+    if not len(sys.argv) > 1:
+        print_usage()
+        exit(1)
     script = open(sys.argv[1]).read()
     sexec = ScriptExecutor(script)
     sexec.run()
     print()
-
+    
+        
+if __name__ == "__main__":
+    main()
