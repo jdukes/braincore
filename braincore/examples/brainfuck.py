@@ -1,19 +1,8 @@
 #!/usr/bin/env python
 from __future__ import print_function
-import sys 
 from braincore import Cell
 
-
-def print_usage():
-    print("usage: %s script.bf")
-
-
-if not len(sys.argv) > 1:
-    print_usage()
-    exit(1)
-
-
-class ScriptExecutor:
+class BrainFuck:
 
     def __init__(self, script):
         self.loc_pointer = 0
@@ -60,9 +49,17 @@ class ScriptExecutor:
         if self.cell:
             self.loc_pointer = self.script[:self.loc_pointer].rindex('[') - 1
 
-            
-if __name__ == "__main__":
+def main():
+    import sys
+    def print_usage():
+        print("usage: %s script.bf")
+    if not len(sys.argv) > 1:
+        print_usage()
+        exit(1)
     script = open(sys.argv[1]).read()
-    sexec = ScriptExecutor(script)
+    sexec = BrainFuck(script)
     sexec.run()
     print(sexec.output)
+            
+if __name__ == "__main__":
+    main()

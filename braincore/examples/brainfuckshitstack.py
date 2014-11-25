@@ -32,10 +32,11 @@ class CodeFeeder:
         self.loc_pointer = self.script[:self.loc_pointer].rindex('[') - 1
 
 
-class ScriptExecutor:
+class BrainFuckShitStack:
 
 
-    def __init__(self, script):
+    def __init__(self, script, out_fd=sys.stdout):
+        self.out = out_fd
         self.script = script
         self.cell = Cell()
         self.stack = Stack()
@@ -61,8 +62,8 @@ class ScriptExecutor:
             self.opcodes.get(op, lambda: None)()
     
     def print_char(self):
-        sys.stdout.write(self.cell.read())
-        sys.stdout.flush()
+        out.write(self.cell.read())
+        out.flush()
 
     def read_char(self):
         cell.write(ord(stdin.read(1)))
@@ -93,7 +94,7 @@ def main():
         print_usage()
         exit(1)
     script = open(sys.argv[1]).read()
-    sexec = ScriptExecutor(script)
+    sexec = BrainFuckShitStack(script)
     sexec.run()
     print()
     

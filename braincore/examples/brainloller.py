@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-import sys
 import Image
 from braincore import Cell, IP
 
@@ -16,9 +15,6 @@ from braincore import Cell, IP
 #(0,255,255) 	rotate IP to the right
 #(0,128,128) 	rotate IP to the left 
 
-
-def print_usage():
-    print("usage: %s script.png")
 
 
 class ImageExecutor:
@@ -89,7 +85,10 @@ class ImageExecutor:
                     self.ip.left()
                 
 
-if __name__ == "__main__":
+def main():
+    import sys
+    def print_usage():
+        print("usage: %s script.png")
     if not len(sys.argv) > 1:
         print_usage()
         exit(1)
@@ -97,3 +96,6 @@ if __name__ == "__main__":
     iexec = ImageExecutor(filename)
     iexec.run()
     print(iexec.output)
+
+if __name__ == "__main__":
+    main()
