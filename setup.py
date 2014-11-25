@@ -8,13 +8,6 @@ import braincore
 now = datetime.now()
 
 
-# def get_git_id():
-#     from subprocess import Popen, PIPE
-#     p = Popen(['git', 'show','-s','HEAD','--format=%h'],
-#               stdout=PIPE, stderr=PIPE)
-#     out, err = p.communicate()
-#     return out.strip(b'\n').decode('ascii')
-
 #fuck it, good enough edition
 version="%s.%s" % (now.year, now.month) # PEP440 compliant
 
@@ -26,5 +19,7 @@ setup(name="braincore",
       author_email="hex@neg9.org",
       license="MIT",
       keywords = "brainfuck, brainlol",
+      scripts=['examples/brainfuck',
+               'examples/brainloller',]
       long_description=braincore.__doc__,
       packages=["braincore"])
