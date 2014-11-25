@@ -15,8 +15,8 @@ if not len(sys.argv) > 1:
 
 class CodeFeeder:
 
-    def __init__(self, code=None):
-        self.build_from(code)
+    def __init__(self, script=None):
+        self.build_from(script)
 
     def get_ops(self):
         while self.loc_pointer < self.script_len:
@@ -24,15 +24,21 @@ class CodeFeeder:
             self.loc_pointer += 1
 
     def __str__(self):
-        return self.code
+        return self.script
 
     def __repr__(self):
-        return '<CodeFeeder of "%s">' % self
+        return '<ScriptFeeder of "%s">' % self
 
-    def build_from(self, code=None):
-        self.code = code or ""
+    def build_from(self, script=None):
+        self.script = script or ""
         self.loc_pointer = 0
         self.script_len = len(script)
+
+    def jump_ahead(self):
+        self.loc_pointer = self.script[self.loc_pointer:].index(']')
+
+    def jump_back(self):
+        self.loc_pointer = self.script[:self.loc_pointer].rindex('[') - 1
 
 
 class ScriptExecutor:
@@ -44,7 +50,7 @@ class ScriptExecutor:
         self.stack = Stack()
         self.code = CodeFeeder(script)
         self.output = ''
-        opcodes = {
+        self.opcodes = {
             ">": self.cell.right,
             "<": self.cell.left,
             "+": self.cell.inc,
@@ -64,18 +70,19 @@ class ScriptExecutor:
             self.opcodes.get(op, lambda: None)()
     
     def print_char(self):
-        print(self.cell.read())
+        sys.stdout.write(self.cell.read())
+        sys.stdout.flush()
 
     def read_char(self):
         cell.write(ord(stdin.read(1)))
 
     def jz(self):
         if not self.cell:
-            self.loc_pointer = self.script[self.loc_pointer:].index(']')
-
+            self.code.jump_ahead()
+            
     def jnz(self):
         if self.cell:
-            self.loc_pointer = self.script[:self.loc_pointer].rindex('[') - 1
+            self.code.jump_back()
 
     def push(self):
         self.stack.push(self.cell.read())
@@ -94,4 +101,5 @@ if __name__ == "__main__":
     script = open(sys.argv[1]).read()
     sexec = ScriptExecutor(script)
     sexec.run()
+    print()
 

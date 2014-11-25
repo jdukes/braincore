@@ -50,7 +50,7 @@ class ScriptExecutor:
         self.output += self.cell.read()
 
     def read_char(self):
-        cell.write(ord(stdin.read(1)))
+        self.cell.write(ord(stdin.read(1)))
 
     def jz(self):
         if not self.cell:

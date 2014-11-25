@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import sys
 import Image
 from braincore import Cell, IP
@@ -17,7 +18,7 @@ from braincore import Cell, IP
 
 
 def print_usage():
-    print "usage: %s script.png" 
+    print("usage: %s script.png")
 
 
 class ImageExecutor:
@@ -95,4 +96,4 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     iexec = ImageExecutor(filename)
     iexec.run()
-    print iexec.output
+    print(iexec.output)
