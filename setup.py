@@ -19,7 +19,5 @@ setup(name="braincore",
       author_email="hex@neg9.org",
       license="MIT",
       keywords = "brainfuck, brainlol",
-      scripts=['examples/brainfuck',
-               'examples/brainloller'],
       long_description=braincore.__doc__,
       packages=["braincore"])
