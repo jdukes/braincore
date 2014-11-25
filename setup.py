@@ -9,7 +9,7 @@ now = datetime.now()
 
 
 #fuck it, good enough edition
-version="%s.%s.1" % (now.year, now.month) # PEP440 compliant
+version="%s.%s.2" % (now.year, now.month) # PEP440 compliant
 
 setup(name="braincore",
       version=version,
@@ -18,6 +18,12 @@ setup(name="braincore",
       author="Josh Dukes",
       author_email="hex@neg9.org",
       license="MIT",
+      entry_points = {
+          'console_scripts': [
+              'brainfuck=braincore.examples.brainfuck:main',
+              'brainloller=braincore.examples.brainloller:main',
+              'brainfuckshitstack=braincore.examples.brainfuckshitstack:main'],
+      },
       keywords = "brainfuck, brainlol",
       long_description=braincore.__doc__,
       packages=["braincore"])

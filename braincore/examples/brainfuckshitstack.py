@@ -35,13 +35,13 @@ class CodeFeeder:
 class BrainFuckShitStack:
 
 
-    def __init__(self, script, out_fd=sys.stdout):
-        self.out = out_fd
+    def __init__(self, script, in_fd=sys.stdin, out_fd=sys.stdout):
+        self.out_fd = out_fd
+        self.in_fd = in_fd
         self.script = script
         self.cell = Cell()
         self.stack = Stack()
         self.code = CodeFeeder(script)
-        self.output = ''
         self.opcodes = {
             ">": self.cell.right,
             "<": self.cell.left,
@@ -62,11 +62,11 @@ class BrainFuckShitStack:
             self.opcodes.get(op, lambda: None)()
     
     def print_char(self):
-        out.write(self.cell.read())
-        out.flush()
+        self.out_fd.write(self.cell.read())
+        self.out_fd.flush()
 
     def read_char(self):
-        cell.write(ord(stdin.read(1)))
+        self.cell.write(ord(self.in_fd.read(1)))
 
     def jz(self):
         if not self.cell:
@@ -90,6 +90,9 @@ class BrainFuckShitStack:
 
 
 def main():
+    import sys
+    def print_usage():
+        print("usage: %s script.bfss")
     if not len(sys.argv) > 1:
         print_usage()
         exit(1)
