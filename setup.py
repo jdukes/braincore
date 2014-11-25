@@ -9,7 +9,7 @@ now = datetime.now()
 
 
 #fuck it, good enough edition
-version="%s.%s" % (now.year, now.month) # PEP440 compliant
+version="%s.%s.1" % (now.year, now.month) # PEP440 compliant
 
 setup(name="braincore",
       version=version,
@@ -20,6 +20,6 @@ setup(name="braincore",
       license="MIT",
       keywords = "brainfuck, brainlol",
       scripts=['examples/brainfuck',
-               'examples/brainloller',]
+               'examples/brainloller'],
       long_description=braincore.__doc__,
       packages=["braincore"])
