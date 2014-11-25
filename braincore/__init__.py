@@ -55,6 +55,24 @@ class IP:
         return (self.x, self.y)
 
 
+class Stack:
+
+    def __init__(self, contents=None):
+        self.contents = contents or []
+
+    def __str__(self):
+        return ''.join(self.contents)
+
+    def __repr__(self):
+        return '<Stack of "%s">' % self
+
+    def push(self, val):
+        self.contents.push(val)
+
+    def pop(self):
+        return self.contents.pop()
+
+
 class Cell:
 
     def __init__(self, max_val=255):
