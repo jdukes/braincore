@@ -92,8 +92,11 @@ class Cell:
     def __sub__(self, val):
         return self.vals.get(self.pointer, 0) - val
 
-    def __nonzero__(self):
+    def __bool__(self):
         return self[self.pointer] > 0
+
+    def __nonzero__(self):
+        return self.__bool__()
 
     def __repr__(self):
         return self.read()

@@ -38,7 +38,7 @@ class ScriptExecutor:
                 self.read_char()
             elif op == "[":
                 self.jz()
-            elif op =="]":
+            elif op == "]":
                 self.jnz()
 
     def get_ops(self):
@@ -60,7 +60,7 @@ class ScriptExecutor:
         if self.cell:
             self.loc_pointer = self.script[:self.loc_pointer].rindex('[') - 1
 
-
+            
 if __name__ == "__main__":
     script = open(sys.argv[1]).read()
     sexec = ScriptExecutor(script)
