@@ -9,7 +9,7 @@ class CodeFeeder:
     def __init__(self, script=None):
         self.build_from(script)
 
-    def get_ops(self):
+    def __iter__(self):
         while self.loc_pointer < self.script_len:
             yield self.script[self.loc_pointer]
             self.loc_pointer += 1
@@ -23,7 +23,7 @@ class CodeFeeder:
     def build_from(self, script=None):
         self.script = script or ""
         self.loc_pointer = 0
-        self.script_len = len(script)
+        self.script_len = len(self.script)
 
     def jump_ahead(self):
         self.loc_pointer = self.script[self.loc_pointer:].index(']')
@@ -33,7 +33,6 @@ class CodeFeeder:
 
 
 class BrainFuckShitStack:
-
 
     def __init__(self, script, in_fd=sys.stdin, out_fd=sys.stdout):
         self.out_fd = out_fd
@@ -58,9 +57,9 @@ class BrainFuckShitStack:
 
 
     def run(self):
-        for op in self.code.get_ops():
+        for op in self.code:
             self.opcodes.get(op, lambda: None)()
-    
+
     def print_char(self):
         self.out_fd.write(self.cell.read())
         self.out_fd.flush()
@@ -77,16 +76,19 @@ class BrainFuckShitStack:
             self.code.jump_back()
 
     def push(self):
-        self.stack.push(self.cell.read())
+        pushed = self.cell.read()
+        self.stack.push(pushed)
 
     def pop(self):
-        self.cell.write(self.stack.pop())
+        popped = ord(self.stack.pop())
+        self.cell.write(popped)
 
     def pvt(self):
         old_stack = str(self.stack)
         old_code = str(self.code)
         self.stack = Stack(old_code)
-        self.code.build_from(old_stack)
+        self.code.build_from(old_stack[::-1])
+        self.code.loc_pointer -= 1 #inc after yield, need to fix
 
 
 def main():

@@ -5,7 +5,6 @@ The number of cells for this implementation is infinite, the max value
 of cells defaults to 255.
 """
 
-
 class IP:
 
     def __init__(self, max_xy):
@@ -58,7 +57,10 @@ class IP:
 class Stack:
 
     def __init__(self, contents=None):
-        self.contents = contents or []
+        if contents:
+            self.contents = list(contents)
+        else:
+            self.contents = []
 
     def __str__(self):
         return ''.join(self.contents)
@@ -67,7 +69,7 @@ class Stack:
         return '<Stack of "%s">' % self
 
     def push(self, val):
-        self.contents.push(val)
+        self.contents.append(val)
 
     def pop(self):
         return self.contents.pop()
