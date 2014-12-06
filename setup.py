@@ -1,4 +1,5 @@
-from setuptools import setup
+#!/usr/bin/env python
+from setuptools import setup, find_packages
 from datetime import datetime #for version string
 import os
 import sys
@@ -9,7 +10,7 @@ now = datetime.now()
 
 
 #fuck it, good enough edition
-version="%s.%s.2" % (now.year, now.month) # PEP440 compliant
+version="%s.%s.5" % (now.year, now.month) # PEP440 compliant
 
 setup(name="braincore",
       version=version,
@@ -26,4 +27,5 @@ setup(name="braincore",
       },
       keywords = "brainfuck, brainlol",
       long_description=braincore.__doc__,
-      packages=["braincore"])
+      packages=find_packages())
+
