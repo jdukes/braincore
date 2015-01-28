@@ -3,11 +3,11 @@ from __future__ import print_function
 import sys 
 from braincore import Cell, Stack
 
+class CodeFeeder: #move this in to braincore
 
-class CodeFeeder:
-
-    def __init__(self, script=None):
+    def __init__(self, script=None, token_match_map={}):
         self.build_from(script)
+        self._token_inverse = token_match_map
 
     def __iter__(self):
         while self.loc_pointer < self.script_len:
@@ -25,11 +25,33 @@ class CodeFeeder:
         self.loc_pointer = 0
         self.script_len = len(self.script)
 
+    def find_left_matching(self, loc):
+        token = self.script[loc]
+        end = loc
+        inverse = self._token_inverse[token]
+        start = self.script[:end].rindex(inverse)
+        while token in self.script[start:end]:
+            next_token = self.script[:end].rindex(token)
+            end = self.find_left_matching(next_token)
+            start = self.script[:end].rindex(inverse)
+        return start
+
+    def find_left_matching(self, loc):
+        token = self.script[loc]
+        end = loc
+        inverse = self._token_inverse[token]
+        start = self.script[:end].rindex(inverse)
+        while token in self.script[start:end]:
+            next_token = self.script[:end].rindex(token)
+            end = self.find_left_matching(next_token)
+            start = self.script[:end].rindex(inverse)
+        return start
+
     def jump_ahead(self):
-        self.loc_pointer = self.script[self.loc_pointer:].index(']')
+        self.loc_pointer = self.find_right_matching(self.loc_pointer)
 
     def jump_back(self):
-        self.loc_pointer = self.script[:self.loc_pointer].rindex('[') - 1
+        self.loc_pointer = self.find_left_matching(self.loc_pointer) -1
 
 
 class BrainFuckShitStack:
@@ -40,7 +62,7 @@ class BrainFuckShitStack:
         self.script = script
         self.cell = Cell()
         self.stack = Stack()
-        self.code = CodeFeeder(script)
+        self.code = CodeFeeder(script, {'[':']', ']':'['})
         self.opcodes = {
             ">": self.cell.right,
             "<": self.cell.left,
