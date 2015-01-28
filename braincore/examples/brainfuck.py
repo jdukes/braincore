@@ -79,15 +79,14 @@ class BrainFuck:
         return end
 
     def find_left_matching(self, loc):
-        token = self.string[loc]
+        token = self.script[loc]
         end = loc
-        inverse = self.inverse[token]
-        start = self.string[:end].rindex(inverse)
-        while token in self.string[start:end]:
-            next_token = self.string[:end].rindex(token)
+        inverse = self._token_inverse[token]
+        start = self.script[:end].rindex(inverse)
+        while token in self.script[start:end]:
+            next_token = self.script[:end].rindex(token)
             end = self.find_left_matching(next_token)
-            start = string[:end].rindex(inverse)
-            print(start, end, next_token)
+            start = self.script[:end].rindex(inverse)
         return start
 
     def jz(self):
