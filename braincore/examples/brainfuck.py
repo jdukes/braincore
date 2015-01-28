@@ -2,6 +2,7 @@
 from __future__ import print_function
 from braincore import Cell
 import sys
+import string
 
 if sys.version_info.major == 3:
     _input = input
@@ -9,6 +10,9 @@ else:
     _input = raw_input
 
 class BrainFuck:
+    
+    _token_inverse = {'[':']',
+                      ']':'['}
 
     def __init__(self, script=None):
         self.setup(script)
@@ -63,13 +67,36 @@ class BrainFuck:
     def read_char(self):
         self.cell.write(ord(stdin.read(1)))
 
+    def find_right_matching(self, loc):
+        token = self.script[loc]
+        inverse = self.inverse[token]
+        start = loc+1
+        end = start + self.script[start:].index(inverse)
+        while token in self.script[start:end+1]:
+            next_token = self.script[loc:].index(token)
+            start = self.find_right_matching(start+next_token)+1
+            end = start + self.script[start:].index(inverse)
+        return end
+
+    def find_left_matching(self, loc):
+        token = self.string[loc]
+        end = loc
+        inverse = self.inverse[token]
+        start = self.string[:end].rindex(inverse)
+        while token in self.string[start:end]:
+            next_token = self.string[:end].rindex(token)
+            end = self.find_left_matching(next_token)
+            start = string[:end].rindex(inverse)
+            print(start, end, next_token)
+        return start
+
     def jz(self):
         if not self.cell:
-            self.loc_pointer = self.script[self.loc_pointer:].index(']')
+            self.loc_pointer = self.find_right_matching(self.loc_pointer)
 
     def jnz(self):
         if self.cell:
-            self.loc_pointer = self.script[:self.loc_pointer].rindex('[') - 1
+            self.loc_pointer = self.find_left_matching(self.loc_pointer) -1
 
 
 def main():

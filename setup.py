@@ -10,7 +10,7 @@ now = datetime.now()
 
 
 #fuck it, good enough edition
-version="%s.%s.5" % (now.year, now.month) # PEP440 compliant
+version="%s.%s.6" % (now.year, now.month) # PEP440 compliant
 
 setup(name="braincore",
       version=version,
